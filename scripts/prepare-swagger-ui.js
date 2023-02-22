@@ -8,7 +8,7 @@ const tar = require('tar')
 const path = require('path')
 const os = require('os')
 
-const dist = 'https://codeload.github.com/swagger-api/swagger-ui/tar.gz/refs/tags/v4.16.0-alpha.1'
+const dist = 'https://codeload.github.com/swagger-api/swagger-ui/tar.gz/refs/tags/v4.16.0-alpha.3'
 
 ;
 

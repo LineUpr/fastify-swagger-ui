@@ -7,6 +7,8 @@ const https = require('https')
 const tar = require('tar')
 const path = require('path')
 const os = require('os')
+const childProcess = require('child_process')
+const process = require('process')
 
 const dist = 'https://codeload.github.com/swagger-api/swagger-ui/tar.gz/refs/tags/v4.16.0-alpha.3'
 
@@ -18,7 +20,10 @@ const dist = 'https://codeload.github.com/swagger-api/swagger-ui/tar.gz/refs/tag
 
   // (1) download and untar
   await downloadAndUntar(dist, tempDir)
-  // (2) execute `prepareSwaggerUi`
+  // (2) run NPM tasks for swagger-ui (dependencies and build)
+  await run('npm', ['install'], tempDir)
+  await run('npm', ['run', 'build'], tempDir)
+  // (3) execute `prepareSwaggerUi`
   prepareSwaggerUi(path.join(tempDir, 'dist'))
 
   console.log('Done.')
@@ -34,6 +39,29 @@ function downloadAndUntar (dist, cwd) {
         console.log('Downloaded')
         resolve()
       })
+    })
+  })
+}
+
+const spawned = []
+
+process.on('SIGINT', () => {
+  console.log(`Killing ${spawned.length} processes`)
+  spawned.forEach(child => {
+    child.kill()
+  })
+})
+
+function run (command, args, cwd) {
+  console.log('Exec', command, args)
+  return new Promise((resolve, reject) => {
+    const spawnedProcess = childProcess.spawn(command, args, { cwd, stdio: 'inherit' })
+    spawned.push(spawnedProcess)
+    spawnedProcess.on('exit', () => {
+      if (spawnedProcess.exitCode !== 0) {
+        reject(new Error(`Exit code ${spawnedProcess.exitCode}`))
+      }
+      resolve()
     })
   })
 }

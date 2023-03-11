@@ -8,8 +8,7 @@
     "coverage": "npm run unit -- --coverage-report=lcovonly",
     "lint": "standard",
     "lint:fix": "npm run lint -- --fix",
-    "prepare": "node -e 'console.log(\"run prepareManual\")'",
-    "prepareManual": "node scripts/prepare-swagger-ui",
+    "prepare": "node scripts/prepare-swagger-ui",
     "prepublishOnly": "npm run prepare",
     "test": "npm run prepare && npm run coverage && npm run typescript",
     "test:dev": "npm run lint && npm run unit && npm run typescript",
@@ -54,8 +53,8 @@
     "fs-extra": "^11.0.0",
     "qs": "^6.11.0",
     "standard": "^17.0.0",
+    "swagger-ui-dist": "^5.0.0-alpha.0",
     "tap": "^16.3.2",
-    "tar": "^6.1.13",
     "tsd": "^0.25.0"
   },
   "dependencies": {

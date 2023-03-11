@@ -1,16 +1,6 @@
 # @lineupr/fastify-swagger-ui
 
-Forked from `@fastify/swagger-ui` and added [Swagger UI 4.16.0 alpha](https://github.com/swagger-api/swagger-ui/pull/8367) which supports OpenAPI 3.1.
-
-There’s no `swagger-ui-dist` available yet, so download the distribution form GitHub, build, and use this.
-
-Usage:
-
-```shell
-npm install
-npm run prepareManual
-npm publish --access public
-```
+Forked from `@fastify/swagger-ui` and added [Swagger UI 5.0.0 alpha](https://github.com/swagger-api/swagger-ui/pull/8367) which supports OpenAPI 3.1.
 
 ---
 

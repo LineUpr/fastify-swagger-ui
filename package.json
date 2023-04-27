@@ -1,6 +1,6 @@
 {
   "name": "@lineupr/fastify-swagger-ui",
-  "version": "1.5.5",
+  "version": "1.8.0",
   "description": "Serve Swagger-ui for Fastify",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -55,7 +55,7 @@
     "standard": "^17.0.0",
     "swagger-ui-dist": "5.0.0-alpha.5",
     "tap": "^16.3.2",
-    "tsd": "^0.26.0"
+    "tsd": "^0.28.0"
   },
   "dependencies": {
     "@fastify/static": "^6.0.0",

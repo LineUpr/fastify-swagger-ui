@@ -12,6 +12,8 @@ A Fastify plugin for serving [Swagger UI](https://swagger.io/tools/swagger-ui/).
 
 Supports Fastify versions `4.x`.
 
+![Demo](https://user-images.githubusercontent.com/52195/228162405-c85ad0d1-900d-442a-b712-7108d98d621f.png)
+
 <a name="install"></a>
 ## Install
 ```
@@ -203,6 +205,7 @@ await fastify.register(require('@fastify/swagger-ui'), {
 You can add custom JavaScript and CSS to the Swagger UI web page by using the theme option.
 
 ##### Example
+
 ```js
 const fastify = require('fastify')()
 
@@ -210,6 +213,7 @@ fastify.register(require('@fastify/swagger'))
 
 await fastify.register(require('@fastify/swagger-ui'), {
   theme: {
+    title: 'My custom title',
     js: [
       { filename: 'special.js', content: 'alert("client javascript")' }
     ],
@@ -225,6 +229,78 @@ await fastify.register(require('@fastify/swagger-ui'), {
         content: Buffer.from('iVBOR...', 'base64')
       }
     ]
+  }
+})
+```
+
+You can add custom JavaScript and CSS to the Swagger UI web page by using the theme option.
+
+#### logo
+
+It's possible to override the logo displayed in the top bar by specifying:
+
+```
+await fastify.register(require('@fastify/swagger-ui'), {
+  logo: {
+    type: 'image/png',
+    content: Buffer.from('iVBOR...', 'base64')
+  },
+  theme: {
+    favicon: [
+      {
+        filename: 'favicon.png',
+        rel: 'icon',
+        sizes: '16x16',
+        type: 'image/png',
+        content: Buffer.from('iVBOR...', 'base64')
+      }
+    ]
+  }
+})
+```
+
+#### Protect your documentation routes
+
+You can protect your documentation by configuring an authentication hook.
+Here is an example using the [`@fastify/basic-auth`](https://github.com/fastify/fastify-basic-auth) plugin:
+
+##### Example
+```js
+const fastify = require('fastify')()
+const crypto = require('crypto')
+
+fastify.register(require('@fastify/swagger'))
+
+// perform constant-time comparison to prevent timing attacks
+function compare (a, b) {
+  a = Buffer.from(a)
+  b = Buffer.from(b)
+  if (a.length !== b.length) {
+    // Delay return with cryptographically secure timing check.
+    crypto.timingSafeEqual(a, a)
+    return false
+  }
+
+  return crypto.timingSafeEqual(a, b)
+}
+
+await fastify.register(require('@fastify/basic-auth'), {
+  validate (username, password, req, reply, done) {
+    let result = true
+    result = compare(username, validUsername) && result
+    result = compare(password, validPassword) && result
+    if (result) {
+      done()
+    } else {
+      done(new Error('Access denied'))
+    }
+  },
+  authenticate: true
+})
+
+await fastify.register(require('@fastify/swagger-ui', {
+  uiHooks: {
+    onRequest: fastify.basicAuth
   }
 })
 ```

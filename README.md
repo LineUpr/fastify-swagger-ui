@@ -1,6 +1,6 @@
 # @lineupr/fastify-swagger-ui
 
-Forked from `@fastify/swagger-ui` and added [Swagger UI 5.0.0 alpha](https://github.com/swagger-api/swagger-ui/pull/8367) which supports OpenAPI 3.1.
+Forked from `@fastify/swagger-ui` and added [Swagger UI 5.0.0](https://github.com/swagger-api/swagger-ui/releases/tag/v5.0.0) which supports OpenAPI 3.1.
 
 ---
 
